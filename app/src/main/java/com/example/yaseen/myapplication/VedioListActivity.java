@@ -21,8 +21,8 @@ public class VedioListActivity extends AppCompatActivity {
 
         // Defined Array values to show in ListView
         String[] values = new String[] { "المحاضرة الأولى",
-                "محاضرة",
-                "محاضرة"
+                "المحاضرة الثانية",
+                "المحاضرة الثالثة"
         };
 
         // Define a new Adapter

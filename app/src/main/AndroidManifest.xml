@@ -22,10 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".YoutubeActivity" />
-        <activity android:name=".VedioListActivity" />
-        <activity android:name=".EssayListActivity" />
-        <activity android:name=".EssayActivity"></activity>
+        <activity android:name=".YoutubeActivity" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".VedioListActivity" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".EssayListActivity" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".EssayActivity" android:theme="@style/AppTheme.NoActionBar"
+            />
     </application>
 
 </manifest>
