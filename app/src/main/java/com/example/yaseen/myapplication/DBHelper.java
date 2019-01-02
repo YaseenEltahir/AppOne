@@ -22,8 +22,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CONTACTS_COLUMN_CITY = "place";
     public static final String CONTACTS_COLUMN_PHONE = "phone";
 */
-    public static final String ESSAYS_TABLE_NAME = "contacts";
+    public static final String ESSAYS_TABLE_NAME = "essays";
     public static final String ESSAYS_COLUMN_ID = "essay_id";
+    public static final String ESSAYS_COLUMN_ESSAY_NAME = "essay_name";
     public static final String ESSAYS_COLUMN_FILE_NAME = "file_name";
     public static final String ESSAYS_COLUMN_FILE_CONTENT = "file_content";
     private HashMap hp;
@@ -40,8 +41,8 @@ public class DBHelper extends SQLiteOpenHelper {
                         "(id integer primary key, name text,phone text,email text, street text,place text)"
         );
         db.execSQL(
-                "create table essays " +
-                        "(essay_id integer primary key, file_name text,file_content text)"
+                "create table "+ESSAYS_TABLE_NAME +
+                        " ("+ESSAYS_COLUMN_ID+" integer primary key,"+ESSAYS_COLUMN_ESSAY_NAME+" text, "+ESSAYS_COLUMN_FILE_NAME+" text,"+ESSAYS_COLUMN_FILE_CONTENT+" text)"
         );
     }
 
@@ -49,7 +50,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
         db.execSQL("DROP TABLE IF EXISTS contacts");
-        db.execSQL("DROP TABLE IF EXISTS essays");
+        db.execSQL("DROP TABLE IF EXISTS "+ESSAYS_TABLE_NAME);
 
         onCreate(db);
     }
@@ -67,13 +68,15 @@ public class DBHelper extends SQLiteOpenHelper {
     }*/
 
     //     "(essay_id integer primary key, file_name text,file_content text)"
-    public boolean insertEssay(String file_name, String file_content) {
+    public boolean insertEssay(String essay_name,String file_name, String file_content) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("file_name", file_name);
-        contentValues.put("file_content", file_content);
-        db.insert("essays", null, contentValues);
+        contentValues.put(ESSAYS_COLUMN_ESSAY_NAME, essay_name);
+        contentValues.put(ESSAYS_COLUMN_FILE_NAME, file_name);
+        contentValues.put(ESSAYS_COLUMN_FILE_CONTENT, file_content);
+        db.insert(ESSAYS_TABLE_NAME, null, contentValues);
         return true;
+
     }
 
    /* public Cursor getData(int id) {
@@ -103,10 +106,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean updateEssay(Integer essay_id, String file_name, String file_content) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("essay_id", essay_id);
-        contentValues.put("file_name", file_name);
-        contentValues.put("file_content", file_content);
-        db.update("essays", contentValues, "essay_id = ? ", new String[]{Integer.toString(essay_id)});
+        contentValues.put(ESSAYS_COLUMN_ID, essay_id);
+        contentValues.put(ESSAYS_COLUMN_FILE_NAME, file_name);
+        contentValues.put(ESSAYS_COLUMN_FILE_CONTENT, file_content);
+        db.update(ESSAYS_COLUMN_ESSAY_NAME, contentValues, ESSAYS_COLUMN_ID+" = ? ", new String[]{Integer.toString(essay_id)});
+
         return true;
     }
 
@@ -131,8 +135,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Integer deleteEssay(Integer essay_id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("essays",
-                "essay_id = ? ",
+        return db.delete(ESSAYS_TABLE_NAME,
+                ESSAYS_COLUMN_ID+" = ? ",
                 new String[]{Integer.toString(essay_id)});
     }
 
@@ -155,11 +159,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from essays", null);
+        Cursor res = db.rawQuery("select * from "+ESSAYS_TABLE_NAME+" where "+ESSAYS_COLUMN_FILE_CONTENT+" like '%يس%'", null);
+//        Cursor res = db.rawQuery("select * from "+ESSAYS_TABLE_NAME, null);
+//        SELECT column1, column2, ...
+//        FROM table_name
+//        WHERE columnN LIKE pattern;
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
-            array_list.add(res.getString(res.getColumnIndex(ESSAYS_COLUMN_FILE_NAME)));
+            array_list.add(res.getString(res.getColumnIndex(ESSAYS_COLUMN_ESSAY_NAME)));
             res.moveToNext();
         }
         return array_list;

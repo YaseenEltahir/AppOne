@@ -3,9 +3,7 @@ package com.example.yaseen.myapplication;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,8 +17,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
-public class DBActivity extends AppCompatActivity {
+
+public class EssayDBListActivity extends AppCompatActivity {
 
     public final static String EXTRA_MESSAGE = "MESSAGE";
     private ListView obj;
@@ -29,7 +27,7 @@ public class DBActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_db);
+        setContentView(R.layout.activity_essay_db_list);
 
         mydb = new DBHelper(this);
         ArrayList array_list = mydb.getAllEssays();

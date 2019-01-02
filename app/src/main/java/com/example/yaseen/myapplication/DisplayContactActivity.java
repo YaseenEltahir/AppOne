@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,22 +19,24 @@ public class DisplayContactActivity extends Activity {
     int from_Where_I_Am_Coming = 0;
     private DBHelper mydb ;
 
-    TextView name ;
-    TextView phone;
-    TextView email;
-    TextView street;
-    TextView place;
+    TextView essay_name ;
+    TextView file_name ;
+    TextView file_content;
+//    TextView email;
+//    TextView street;
+//    TextView place;
     int id_To_Update = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_contact);
-        name = (TextView) findViewById(R.id.editTextName);
-        phone = (TextView) findViewById(R.id.editTextPhone);
-        email = (TextView) findViewById(R.id.editTextStreet);
-        street = (TextView) findViewById(R.id.editTextEmail);
-        place = (TextView) findViewById(R.id.editTextCity);
+        essay_name = (TextView) findViewById(R.id.editTextEssayName);
+        file_name = (TextView) findViewById(R.id.editTextFileName);
+        file_content = (TextView) findViewById(R.id.editTextFileContent);
+//        email = (TextView) findViewById(R.id.editTextStreet);
+//        street = (TextView) findViewById(R.id.editTextEmail);
+//        place = (TextView) findViewById(R.id.editTextCity);
 
         mydb = new DBHelper(this);
 
@@ -49,6 +50,7 @@ public class DisplayContactActivity extends Activity {
                 id_To_Update = Value;
                 rs.moveToFirst();
 
+                String essay_name9 = rs.getString(rs.getColumnIndex(DBHelper.ESSAYS_COLUMN_ESSAY_NAME));
                 String nam = rs.getString(rs.getColumnIndex(DBHelper.ESSAYS_COLUMN_FILE_NAME));
                 String phon = rs.getString(rs.getColumnIndex(DBHelper.ESSAYS_COLUMN_FILE_CONTENT));
                 /*String emai = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_EMAIL));
@@ -61,13 +63,17 @@ public class DisplayContactActivity extends Activity {
                 Button b = (Button)findViewById(R.id.button1);
                 b.setVisibility(View.INVISIBLE);
 
-                name.setText((CharSequence)nam);
-                name.setFocusable(false);
-                name.setClickable(false);
+                essay_name.setText((CharSequence)essay_name9);
+                essay_name.setFocusable(false);
+                essay_name.setClickable(false);
 
-                phone.setText((CharSequence)phon);
-                phone.setFocusable(false);
-                phone.setClickable(false);
+                file_name.setText((CharSequence)nam);
+                file_name.setFocusable(false);
+                file_name.setClickable(false);
+
+                file_content.setText((CharSequence)phon);
+                file_content.setFocusable(false);
+                file_content.setClickable(false);
 
                 /*email.setText((CharSequence)emai);
                 email.setFocusable(false);
@@ -106,13 +112,17 @@ public class DisplayContactActivity extends Activity {
             case R.id.Edit_Contact:
                 Button b = (Button)findViewById(R.id.button1);
                 b.setVisibility(View.VISIBLE);
-                name.setEnabled(true);
-                name.setFocusableInTouchMode(true);
-                name.setClickable(true);
+                essay_name.setEnabled(true);
+                essay_name.setFocusableInTouchMode(true);
+                essay_name.setClickable(true);
 
-                phone.setEnabled(true);
-                phone.setFocusableInTouchMode(true);
-                phone.setClickable(true);
+                file_name.setEnabled(true);
+                file_name.setFocusableInTouchMode(true);
+                file_name.setClickable(true);
+
+                file_content.setEnabled(true);
+                file_content.setFocusableInTouchMode(true);
+                file_content.setClickable(true);
 /*
 
                 email.setEnabled(true);
@@ -138,7 +148,7 @@ public class DisplayContactActivity extends Activity {
                                 mydb.deleteEssay(id_To_Update);
                                 Toast.makeText(getApplicationContext(), "Deleted Successfully",
                                         Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(),DBActivity.class);
+                                Intent intent = new Intent(getApplicationContext(),EssayDBListActivity.class);
                                 startActivity(intent);
                             }
                         })
@@ -164,16 +174,16 @@ public class DisplayContactActivity extends Activity {
         if(extras !=null) {
             int Value = extras.getInt("id");
             if(Value>0){
-                if(mydb.updateEssay(id_To_Update,name.getText().toString(),
-                        phone.getText().toString())){
+                if(mydb.updateEssay(id_To_Update,file_name.getText().toString(),
+                        file_content.getText().toString())){
                     Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(),DBActivity.class);
+                    Intent intent = new Intent(getApplicationContext(),EssayDBListActivity.class);
                     startActivity(intent);
                 } else{
                     Toast.makeText(getApplicationContext(), "not Updated", Toast.LENGTH_SHORT).show();
                 }
             } else{
-                if(mydb.insertEssay(name.getText().toString(), phone.getText().toString()
+                if(mydb.insertEssay(essay_name.getText().toString(),file_name.getText().toString(), file_content.getText().toString()
                        )){
                     Toast.makeText(getApplicationContext(), "done",
                             Toast.LENGTH_SHORT).show();
@@ -181,7 +191,7 @@ public class DisplayContactActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "not done",
                             Toast.LENGTH_SHORT).show();
                 }
-                Intent intent = new Intent(getApplicationContext(),DBActivity.class);
+                Intent intent = new Intent(getApplicationContext(),EssayDBListActivity.class);
                 startActivity(intent);
             }
         }
