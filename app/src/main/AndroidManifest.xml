@@ -34,9 +34,11 @@
         <activity
             android:name=".EssayActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".EssayDBListActivity"></activity>
+        <activity android:name=".EssayDBListActivity" />
         <activity android:name=".DisplayContactActivity" />
-        <activity android:name=".EssaysActivity"></activity>
+        <activity android:name=".EssaysActivity" />
+        <activity android:name=".EssayShowActivity" />
+        <activity android:name=".PDFFromAssets"/>
     </application>
 
 </manifest>

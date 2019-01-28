@@ -1,6 +1,7 @@
 package com.example.yaseen.myapplication;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,9 +17,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private SearchView searchView;
+//    private SearchView searchView;
 
 
     @Override
@@ -34,11 +37,18 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView =  findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        /*searchView = findViewById(R.id.searchView);
+        String lang = "ar";
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
 
+/*searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -109,7 +119,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
     public void goToEssaysActivity(View view){
-        startActivity(new Intent(this,EssaysActivity.class));
+        startActivity(new Intent(this,EssayDBListActivity.class));
 
     }public void goToYoutubeActivity(View view){
         startActivity(new Intent(this,VedioListActivity.class));

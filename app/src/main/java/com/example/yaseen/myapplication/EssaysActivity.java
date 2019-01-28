@@ -2,8 +2,12 @@ package com.example.yaseen.myapplication;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -16,24 +20,34 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class EssaysActivity extends AppCompatActivity {
 
-    List<Essay> EssaysList;
+    private List<Essay> essaysList;
+    private RecyclerView recyclerView;
+    private EssaysAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_essays);
 
-        EssaysList = new ArrayList<>();
+        essaysList = new ArrayList<>();
         //final TextView mTextView = (TextView) findViewById(R.id.text);
 // ...
+        recyclerView=findViewById(R.id.recycler_view);
+        mAdapter = new EssaysAdapter(essaysList,this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+
 
 // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.43.81:8000/api/essays";
+        String url = getString(R.string.ServerAddress)+"api/essays";
 
         final Gson gson = new Gson();
 
@@ -48,8 +62,10 @@ public class EssaysActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         Log.e(getString(R.string.Tag), response);
+                        essaysList.addAll((Collection<? extends Essay>) gson.fromJson(response, category));
                         List<Essay> str = gson.fromJson(response, category);
-                        Log.e(getString(R.string.Tag), str.get(0).getCreated_at());
+                        mAdapter.notifyDataSetChanged();
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -58,7 +74,10 @@ public class EssaysActivity extends AppCompatActivity {
             }
         });
 
-// Add the request to the RequestQueue.
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                1000*60,
+               5,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
     }
 }

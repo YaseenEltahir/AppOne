@@ -31,9 +31,9 @@ public class DisplayContactActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_contact);
-        essay_name = (TextView) findViewById(R.id.editTextEssayName);
-        file_name = (TextView) findViewById(R.id.editTextFileName);
-        file_content = (TextView) findViewById(R.id.editTextFileContent);
+        essay_name = findViewById(R.id.editTextEssayName);
+        file_name = findViewById(R.id.editTextFileName);
+        file_content =  findViewById(R.id.editTextFileContent);
 //        email = (TextView) findViewById(R.id.editTextStreet);
 //        street = (TextView) findViewById(R.id.editTextEmail);
 //        place = (TextView) findViewById(R.id.editTextCity);
@@ -50,9 +50,9 @@ public class DisplayContactActivity extends Activity {
                 id_To_Update = Value;
                 rs.moveToFirst();
 
-                String essay_name9 = rs.getString(rs.getColumnIndex(DBHelper.ESSAYS_COLUMN_ESSAY_NAME));
-                String nam = rs.getString(rs.getColumnIndex(DBHelper.ESSAYS_COLUMN_FILE_NAME));
-                String phon = rs.getString(rs.getColumnIndex(DBHelper.ESSAYS_COLUMN_FILE_CONTENT));
+                String essay_title = rs.getString(rs.getColumnIndex(DBHelper.ESSAYS_COLUMN_ESSAY_TITLE));
+//                String nam = rs.getString(rs.getColumnIndex(DBHelper.ESSAYS_COLUMN_FILE_NAME));
+//                String phon = rs.getString(rs.getColumnIndex(DBHelper.ESSAYS_COLUMN_ESSAY_BODY));
                 /*String emai = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_EMAIL));
                 String stree = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_STREET));
                 String plac = rs.getString(rs.getColumnIndex(DBHelper.CONTACTS_COLUMN_CITY));*/
@@ -63,17 +63,17 @@ public class DisplayContactActivity extends Activity {
                 Button b = (Button)findViewById(R.id.button1);
                 b.setVisibility(View.INVISIBLE);
 
-                essay_name.setText((CharSequence)essay_name9);
+                essay_name.setText((CharSequence)essay_title);
                 essay_name.setFocusable(false);
                 essay_name.setClickable(false);
 
-                file_name.setText((CharSequence)nam);
-                file_name.setFocusable(false);
-                file_name.setClickable(false);
-
-                file_content.setText((CharSequence)phon);
-                file_content.setFocusable(false);
-                file_content.setClickable(false);
+//                file_name.setText((CharSequence)nam);
+//                file_name.setFocusable(false);
+//                file_name.setClickable(false);
+//
+//                file_content.setText((CharSequence)phon);
+//                file_content.setFocusable(false);
+//                file_content.setClickable(false);
 
                 /*email.setText((CharSequence)emai);
                 email.setFocusable(false);

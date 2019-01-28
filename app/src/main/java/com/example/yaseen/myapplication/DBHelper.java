@@ -2,7 +2,6 @@ package com.example.yaseen.myapplication;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -24,9 +23,9 @@ public class DBHelper extends SQLiteOpenHelper {
 */
     public static final String ESSAYS_TABLE_NAME = "essays";
     public static final String ESSAYS_COLUMN_ID = "essay_id";
-    public static final String ESSAYS_COLUMN_ESSAY_NAME = "essay_name";
+    public static final String ESSAYS_COLUMN_ESSAY_TITLE = "essay_name";
     public static final String ESSAYS_COLUMN_FILE_NAME = "file_name";
-    public static final String ESSAYS_COLUMN_FILE_CONTENT = "file_content";
+    public static final String ESSAYS_COLUMN_ESSAY_BODY = "file_content";
     private HashMap hp;
 
     public DBHelper(Context context) {
@@ -42,7 +41,7 @@ public class DBHelper extends SQLiteOpenHelper {
         );
         db.execSQL(
                 "create table "+ESSAYS_TABLE_NAME +
-                        " ("+ESSAYS_COLUMN_ID+" integer primary key,"+ESSAYS_COLUMN_ESSAY_NAME+" text, "+ESSAYS_COLUMN_FILE_NAME+" text,"+ESSAYS_COLUMN_FILE_CONTENT+" text)"
+                        " ("+ESSAYS_COLUMN_ID+" integer primary key,"+ ESSAYS_COLUMN_ESSAY_TITLE +" text, "+ESSAYS_COLUMN_FILE_NAME+" text,"+ ESSAYS_COLUMN_ESSAY_BODY +" text)"
         );
     }
 
@@ -71,9 +70,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean insertEssay(String essay_name,String file_name, String file_content) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ESSAYS_COLUMN_ESSAY_NAME, essay_name);
+        contentValues.put(ESSAYS_COLUMN_ESSAY_TITLE, essay_name);
         contentValues.put(ESSAYS_COLUMN_FILE_NAME, file_name);
-        contentValues.put(ESSAYS_COLUMN_FILE_CONTENT, file_content);
+        contentValues.put(ESSAYS_COLUMN_ESSAY_BODY, file_content);
         db.insert(ESSAYS_TABLE_NAME, null, contentValues);
         return true;
 
@@ -102,14 +101,19 @@ public class DBHelper extends SQLiteOpenHelper {
         int numRows = (int) DatabaseUtils.queryNumEntries(db, ESSAYS_TABLE_NAME);
         return numRows;
     }
+    public boolean isDataBaseEmpty() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int numRows = (int) DatabaseUtils.queryNumEntries(db, ESSAYS_TABLE_NAME);
+        return (numRows==0)?true:false;
+    }
 
     public boolean updateEssay(Integer essay_id, String file_name, String file_content) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(ESSAYS_COLUMN_ID, essay_id);
         contentValues.put(ESSAYS_COLUMN_FILE_NAME, file_name);
-        contentValues.put(ESSAYS_COLUMN_FILE_CONTENT, file_content);
-        db.update(ESSAYS_COLUMN_ESSAY_NAME, contentValues, ESSAYS_COLUMN_ID+" = ? ", new String[]{Integer.toString(essay_id)});
+        contentValues.put(ESSAYS_COLUMN_ESSAY_BODY, file_content);
+        db.update(ESSAYS_COLUMN_ESSAY_TITLE, contentValues, ESSAYS_COLUMN_ID+" = ? ", new String[]{Integer.toString(essay_id)});
 
         return true;
     }
@@ -155,11 +159,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return array_list;
     }*/
     public ArrayList<String> getAllEssays() {
-        ArrayList<String> array_list = new ArrayList<String>();
+        ArrayList<String> array_list = new ArrayList<>();
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from "+ESSAYS_TABLE_NAME+" where "+ESSAYS_COLUMN_FILE_CONTENT+" like '%يس%'", null);
+        Cursor res = db.rawQuery("select * from "+ESSAYS_TABLE_NAME, null);
+//        Cursor res = db.rawQuery("select * from "+ESSAYS_TABLE_NAME+" where "+ ESSAYS_COLUMN_ESSAY_BODY +" like '%يس%'", null);
 //        Cursor res = db.rawQuery("select * from "+ESSAYS_TABLE_NAME, null);
 //        SELECT column1, column2, ...
 //        FROM table_name
@@ -167,7 +172,20 @@ public class DBHelper extends SQLiteOpenHelper {
         res.moveToFirst();
 
         while (res.isAfterLast() == false) {
-            array_list.add(res.getString(res.getColumnIndex(ESSAYS_COLUMN_ESSAY_NAME)));
+            array_list.add(res.getString(res.getColumnIndex(ESSAYS_COLUMN_ESSAY_TITLE)));
+            res.moveToNext();
+        }
+        return array_list;
+    }
+    public ArrayList<String> getLikeEssays(String s) {
+        ArrayList<String> array_list = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from "+ESSAYS_TABLE_NAME+" where "+ ESSAYS_COLUMN_ESSAY_BODY +" like '%"+s+"%'", null);
+//        Cursor res = db.rawQuery("select * from "+ESSAYS_TABLE_NAME+" where "+ ESSAYS_COLUMN_ESSAY_BODY +" like '%يس%'", null);
+        res.moveToFirst();
+
+        while (res.isAfterLast() == false) {
+            array_list.add(res.getString(res.getColumnIndex(ESSAYS_COLUMN_ESSAY_TITLE)));
             res.moveToNext();
         }
         return array_list;
