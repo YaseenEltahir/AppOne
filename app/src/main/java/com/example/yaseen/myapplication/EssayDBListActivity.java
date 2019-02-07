@@ -78,7 +78,8 @@ public class EssayDBListActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 array_list.clear();
-                 array_list.addAll(mydb.getLikeEssays(newText));
+                String [] words=newText.split("\\W+");
+                 array_list.addAll(mydb.getLikeEssays(words));
 //                ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array_list);
                 arrayAdapter.notifyDataSetChanged();
                 return true;

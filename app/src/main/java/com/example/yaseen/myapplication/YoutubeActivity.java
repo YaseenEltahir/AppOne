@@ -12,12 +12,14 @@ import com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener
 import com.google.android.youtube.player.YouTubePlayer.Provider;
 import com.google.android.youtube.player.YouTubePlayerView;
 
+import android.util.Log;
 import android.widget.Toast;
 
 
 public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
-    public static final String API_KEY = "AIzaSyCq63NUoKeO9NujKNhGHPvrplaCvhcn754";
+    public static final String API_KEY = "AIzaSyDaEtBwN_paoD5rqmL3lYxl8hk1fikSAx0";
+//    public static final String API_KEY = "AIzaSyCq63NUoKeO9NujKNhGHPvrplaCvhcn754";AIzaSyDaEtBwN_paoD5rqmL3lYxl8hk1fikSAx0
     //public static final String VIDEO_ID = "aJ7BoNG-r2c";
     public static String VIDEO_ID;
 
@@ -27,7 +29,7 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
         setContentView(R.layout.activity_youtube);
 
 //        VIDEO_ID=getIntent().getExtras().getString("vedioId");
-        VIDEO_ID = "ASC7UdxUSf4";
+        VIDEO_ID = "x4-dKy7vR9E";
         YouTubePlayerView youTubePlayerView = findViewById(R.id.videoView);
         youTubePlayerView.initialize(API_KEY, this);
 
@@ -35,7 +37,8 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
 
     @Override
     public void onInitializationFailure(Provider provider, YouTubeInitializationResult result) {
-        Toast.makeText(this, "Failured to Initialize!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, result.toString(), Toast.LENGTH_LONG).show();
+        Log.e("api",result.toString());
     }
 
     @Override

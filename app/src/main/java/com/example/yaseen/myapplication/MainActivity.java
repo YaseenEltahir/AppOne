@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView =  findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         String lang = "ar";
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config,
                 getBaseContext().getResources().getDisplayMetrics());
-
+        startService(new Intent(this, MainService.class));
 /*searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -104,11 +104,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.essays) {
-            startActivity(new Intent(this,EssayListActivity.class));
+            startActivity(new Intent(this, EssayListActivity.class));
         } else if (id == R.id.lectures) {
-            startActivity(new Intent(this,VedioListActivity.class));
+            startActivity(new Intent(this, VedioListActivity.class));
 
-        }  else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
@@ -118,11 +118,14 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public void goToEssaysActivity(View view){
-        startActivity(new Intent(this,EssayDBListActivity.class));
 
-    }public void goToYoutubeActivity(View view){
-        startActivity(new Intent(this,VedioListActivity.class));
+    public void goToEssaysActivity(View view) {
+        startActivity(new Intent(this, EssayDBListActivity.class));
+
+    }
+
+    public void goToYoutubeActivity(View view) {
+        startActivity(new Intent(this, VedioListActivity.class));
 
     }
 }

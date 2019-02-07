@@ -9,7 +9,6 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layoutDirection="rtl"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -28,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
-        android:background="@android:color/holo_blue_light">
+        android:background="@drawable/ice_texture_background_3">
 
 
 
@@ -38,6 +37,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_centerVertical="true"
+            android:layout_margin="50dp"
             >
             <!--<TextView-->
                 <!--android:id="@+id/text"-->
@@ -51,7 +51,7 @@
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginBottom="20dp"
             android:background="@android:color/holo_blue_dark"
             android:onClick="goToEssaysActivity"
             android:text="@string/essays"
@@ -60,7 +60,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginTop="20dp"
             android:background="@android:color/holo_blue_dark"
             android:onClick="goToYoutubeActivity"
             android:text="@string/lectures"

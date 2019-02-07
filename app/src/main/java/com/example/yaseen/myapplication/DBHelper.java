@@ -177,10 +177,15 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return array_list;
     }
-    public ArrayList<String> getLikeEssays(String s) {
+    public ArrayList<String> getLikeEssays(String ... word) {
         ArrayList<String> array_list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from "+ESSAYS_TABLE_NAME+" where "+ ESSAYS_COLUMN_ESSAY_BODY +" like '%"+s+"%'", null);
+        String sqlQuery="select * from "+ESSAYS_TABLE_NAME+" where ";
+        for(String s:word )
+            sqlQuery+=ESSAYS_COLUMN_ESSAY_BODY+" like '%"+s+"%' OR ";
+        sqlQuery=sqlQuery.substring(0,sqlQuery.length()-4);
+        Cursor res = db.rawQuery(sqlQuery, null);
+//        Cursor res = db.rawQuery("select * from "+ESSAYS_TABLE_NAME+" where "+ ESSAYS_COLUMN_ESSAY_BODY +" like '%"+word[0]+"%'", null);
 //        Cursor res = db.rawQuery("select * from "+ESSAYS_TABLE_NAME+" where "+ ESSAYS_COLUMN_ESSAY_BODY +" like '%يس%'", null);
         res.moveToFirst();
 
