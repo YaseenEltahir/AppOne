@@ -1,6 +1,11 @@
 package com.example.yaseen.myapplication;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.database.Cursor;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -17,9 +22,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class EssayDBListActivity extends AppCompatActivity {
 
@@ -28,19 +33,36 @@ public class EssayDBListActivity extends AppCompatActivity {
     DBHelper mydb;
     ArrayList<String> array_list;
 
+    ArrayList<String> files_names_array_list=new ArrayList<>();
+    ArrayList<String> essays_titles_array_list=new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_essay_db_list);
-
         mydb = new DBHelper(this);
+
+//        showNotification(this);
 
 //        Log.e(getString(R.string.Tag),String.valueOf(mydb.essaysNumberOfRows()));
         if (mydb.isDataBaseEmpty()) {
 
-            mydb.insertEssay("أيام في أوروبا", "DaysInEurope.pdf", "أيام في أوروبا");
+//            mydb.insertEssay("أيام في أوروبا", "DaysInEurope.pdf", "أيام في أوروبا");
+            mydb.insertEssay("30 وسيلة لتأديب الطفل", "30 وسيلة لتأديب الطفل.pdf", "30 وسيلة لتأديب الطفل");
+            mydb.insertEssay("افكار دعوية", "افكار دعوية.pdf", "افكار دعوية");
+            mydb.insertEssay("التربية الايمانية", "التربية الايمانية.pdf", "التربية الايمانية");
+            mydb.insertEssay("التربية القرانية", "التربية القرانية.pdf", "التربية القرانية");
+            mydb.insertEssay("الشعور بالانتماء", "الشعور بالانتماء.pdf", "الشعور بالانتماء");
+            mydb.insertEssay("المكافئات", "المكافئات.pdf", "المكافئات");
+            mydb.insertEssay("فن العقاب", "فن العقاب.pdf", "فن العقاب");
+            mydb.insertEssay("كيف تعاقب طفلك", "كيف تعاقب طفلك.pdf", "كيف تعاقب طفلك");
+            mydb.insertEssay("لماذا نضرب ابناءنا", "لماذا نضرب ابناءنا.pdf", "لماذا نضرب ابناءنا");
+            mydb.insertEssay("وحب الرسول", "وحب الرسول.pdf", "وحب الرسول");
+            mydb.insertEssay("وحب الله عز وجل", "وحب الله عز وجل.pdf", "وحب الله عز وجل");
+            Log.e("pin","inserted");
         }
-        array_list = mydb.getAllEssays();
+        showNotification(this);
+        array_list = mydb.getAllEssaysTitles();
 //        Log.d(getString(R.string.Tag),array_list.toString());
         final ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, array_list);
 //arrayAdapter.notifyDataSetChanged();
@@ -86,7 +108,45 @@ public class EssayDBListActivity extends AppCompatActivity {
             }
         });
     }
+    private int getRandomNumber(int min, int max) {
+        return (new Random()).nextInt((max - min) + 1) + min;
+    }
+    private void showNotification(Context context) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            files_names_array_list = mydb.getAllEssaysFilesNames();
+            essays_titles_array_list = mydb.getAllEssaysTitles();
+//Log.e("pin",String.valueOf(files_names_array_list.size()));
+            int selected_essay_index=getRandomNumber(0,files_names_array_list.size()-1);
+            String selected_essay_title=essays_titles_array_list.get(selected_essay_index);
+            String selected_file_name=files_names_array_list.get(selected_essay_index);
 
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+            mBuilder.setSmallIcon(R.drawable.app_icon);
+
+            mBuilder.setContentTitle(selected_essay_title);
+            mBuilder.setContentText(selected_file_name);
+
+
+//        Intent resultIntent = new Intent(this, ResultActivity.class);
+            Intent resultIntent = new Intent(context, PDFFromAssets.class).putExtra("file_name", selected_file_name);
+
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+            stackBuilder.addParentStack(PDFFromAssets.class);
+
+// Adds the Intent that starts the Activity to the top of the stack
+            stackBuilder.addNextIntent(resultIntent);
+            PendingIntent resultPendingIntent = null;
+
+            resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(resultPendingIntent);
+            NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+// notificationID allows you to update the notification later on.
+            mNotificationManager.notify(1, mBuilder.build());
+
+        }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -114,10 +174,10 @@ public class EssayDBListActivity extends AppCompatActivity {
         }
     }
 
-    public boolean onKeyDown(int keycode, KeyEvent event) {
-        if (keycode == KeyEvent.KEYCODE_BACK) {
-            moveTaskToBack(true);
-        }
-        return super.onKeyDown(keycode, event);
-    }
+//    public boolean onKeyDown(int keycode, KeyEvent event) {
+//        if (keycode == KeyEvent.KEYCODE_BACK) {
+//            moveTaskToBack(true);
+//        }
+//        return super.onKeyDown(keycode, event);
+//    }
 }

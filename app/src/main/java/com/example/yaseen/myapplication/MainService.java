@@ -24,8 +24,8 @@ public class MainService extends Service {
         //DataClass.setServiceState(this,true);
 
         alarm.setAlarm(this);
-        Toast.makeText(this,"Alarm is to be triggered Every Day at "+ ""
-               ,Toast.LENGTH_LONG).show();
+//        Toast.makeText(this,"Alarm is to be triggered Every Day at "+ ""
+//               ,Toast.LENGTH_LONG).show();
 
 
         return START_STICKY;

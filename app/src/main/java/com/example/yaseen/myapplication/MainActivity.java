@@ -1,10 +1,15 @@
 package com.example.yaseen.myapplication;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.View;
@@ -104,7 +109,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.essays) {
-            startActivity(new Intent(this, EssayListActivity.class));
+            startActivity(new Intent(this, EssayDBListActivity.class));
         } else if (id == R.id.lectures) {
             startActivity(new Intent(this, VedioListActivity.class));
 

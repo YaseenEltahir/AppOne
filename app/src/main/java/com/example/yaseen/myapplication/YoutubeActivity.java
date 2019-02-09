@@ -28,8 +28,8 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_youtube);
 
-//        VIDEO_ID=getIntent().getExtras().getString("vedioId");
-        VIDEO_ID = "x4-dKy7vR9E";
+        VIDEO_ID=getIntent().getExtras().getString("vedioId");
+//        VIDEO_ID = "x4-dKy7vR9E";
         YouTubePlayerView youTubePlayerView = findViewById(R.id.videoView);
         youTubePlayerView.initialize(API_KEY, this);
 

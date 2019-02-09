@@ -20,9 +20,9 @@ public class VedioListActivity extends AppCompatActivity {
         final ListView listView = findViewById(R.id.listView);
 
         // Defined Array values to show in ListView
-        String[] values = new String[] { "المحاضرة الأولى",
-                "المحاضرة الثانية",
-                "المحاضرة الثالثة"
+        String[] values = new String[] { "(ولقد آتيناك سبعاً من المثاني والقرآن العظيم)",
+                "(وَمَن قُتِلَ مَظْلُومًا فَقَدْ جَعَلْنَا لِوَلِيِّهِ سُلْطَاناُ)",
+                "اعلم يا هذا أن ساعد الله أشد من ساعدك !"
         };
 
         // Define a new Adapter
@@ -45,10 +45,14 @@ public class VedioListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 //                String VIDEO_ID = "ZTev4airr-U";
-                String VIDEO_ID = "_xKt6Kd_Cqs";
+                String VIDEO_ID = "0tGpmcGvVTg";
 
                 if(position==0)
                     startActivity(new Intent(VedioListActivity.this,YoutubeActivity.class).putExtra("vedioId",VIDEO_ID));
+                else if(position==1)
+                    startActivity(new Intent(VedioListActivity.this,YoutubeActivity.class).putExtra("vedioId","hu-wGTNvjro"));
+                else
+                    startActivity(new Intent(VedioListActivity.this,YoutubeActivity.class).putExtra("vedioId","BxBYKqkxbMI"));
 
                 // ListView Clicked item index
 //                int itemPosition     = position;

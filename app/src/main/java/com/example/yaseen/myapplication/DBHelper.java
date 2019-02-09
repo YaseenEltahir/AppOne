@@ -158,7 +158,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return array_list;
     }*/
-    public ArrayList<String> getAllEssays() {
+    public ArrayList<String> getAllEssaysTitles() {
         ArrayList<String> array_list = new ArrayList<>();
 
         //hp = new HashMap();
@@ -173,6 +173,24 @@ public class DBHelper extends SQLiteOpenHelper {
 
         while (res.isAfterLast() == false) {
             array_list.add(res.getString(res.getColumnIndex(ESSAYS_COLUMN_ESSAY_TITLE)));
+            res.moveToNext();
+        }
+        return array_list;
+    }public ArrayList<String> getAllEssaysFilesNames() {
+        ArrayList<String> array_list = new ArrayList<>();
+
+        //hp = new HashMap();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from "+ESSAYS_TABLE_NAME, null);
+//        Cursor res = db.rawQuery("select * from "+ESSAYS_TABLE_NAME+" where "+ ESSAYS_COLUMN_ESSAY_BODY +" like '%يس%'", null);
+//        Cursor res = db.rawQuery("select * from "+ESSAYS_TABLE_NAME, null);
+//        SELECT column1, column2, ...
+//        FROM table_name
+//        WHERE columnN LIKE pattern;
+        res.moveToFirst();
+
+        while (res.isAfterLast() == false) {
+            array_list.add(res.getString(res.getColumnIndex(ESSAYS_COLUMN_FILE_NAME)));
             res.moveToNext();
         }
         return array_list;

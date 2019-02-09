@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".VedioListActivity"
     android:fitsSystemWindows="true"
+    android:background="@drawable/ice_texture_background_3"
     >
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

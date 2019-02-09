@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/ice_texture_background_3"
+    >
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -27,10 +29,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
-        android:background="@drawable/ice_texture_background_3">
+        >
 
 
-
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/app_icon"
+    android:layout_centerHorizontal="true"
+    android:id="@+id/main_image"
+    android:layout_margin="50dp"
+    />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,6 +47,7 @@
             android:orientation="vertical"
             android:layout_centerVertical="true"
             android:layout_margin="50dp"
+            android:layout_below="@+id/main_image"
             >
             <!--<TextView-->
                 <!--android:id="@+id/text"-->
@@ -76,6 +86,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_launcher"
-        app:backgroundTint="?attr/colorPrimary" />
+        app:backgroundTint="@android:color/holo_blue_dark" />
 
 </android.support.design.widget.CoordinatorLayout>
